@@ -10,10 +10,14 @@ import Recipe from './pages/recipe/Recipe';
 import './App.css'
 import Navbar from './components/navbar/Navbar';
 import ThemeSelector from './Theme/ThemeSelector';
+import { useTheme } from './hooks/useTheme';
 
 function App() {
+
+  const { mode } = useTheme();
+
   return (
-    <div className="App">
+    <div className={`App ${mode}`}>
       <Router>
       <Navbar/>
       <ThemeSelector/>
