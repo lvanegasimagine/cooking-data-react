@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { useFetch } from "../../hooks/useFetch";
+import { projectFirestore } from "../../firebase/Config";
+
 import { useTheme } from "../../hooks/useTheme";
 import arrowIcon from "../../assets/arrow-back.svg";
 import "./Recipe.css";
@@ -7,9 +9,34 @@ import "./Recipe.css";
 const Recipe = () => {
   const { id } = useParams();
   const history = useHistory();
-  const url = `http://localhost:3000/recipes/${id}`;
-  const { data: recipe, isPending, error } = useFetch(url);
   const { mode } = useTheme();
+
+  const [recipe, setRecipe] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setIsPending(true);
+
+    projectFirestore
+      .collection("recipes")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setRecipe(doc.data());
+          setIsPending(false);
+        } else {
+          setError("No recipe found");
+          setIsPending(false);
+        }
+      })
+      .catch((err) => {
+        setError(err.message);
+        setIsPending(false);
+      });
+  }, [])
+  
 
   return (
     <div className={`recipe ${mode}`}>
