@@ -24,11 +24,11 @@ const Recipe = () => {
       .get()
       .then((doc) => {
         if (doc.exists) {
+          setIsPending(false);
           setRecipe(doc.data());
-          setIsPending(false);
         } else {
-          setError("No recipe found");
           setIsPending(false);
+          setError("No recipe found");
         }
       })
       .catch((err) => {

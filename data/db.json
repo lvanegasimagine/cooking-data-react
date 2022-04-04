@@ -56,6 +56,18 @@
       "method": "America del Norte",
       "cookingTime": "15 minutes",
       "id": "5McgBXe"
+    },
+    {
+      "title": "Pasta a la Bolonesa",
+      "ingredients": [
+        "Pasta",
+        "Salsa",
+        "Ajo",
+        "Aceite"
+      ],
+      "method": "Cocer la pasta etc etc etc",
+      "cookingTime": "44 minutes",
+      "id": "UOTeOXc"
     }
   ]
 }
