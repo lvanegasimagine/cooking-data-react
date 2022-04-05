@@ -15,6 +15,7 @@ const Recipe = () => {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(false);
 
+
   useEffect(() => {
     setIsPending(true);
 
@@ -35,8 +36,14 @@ const Recipe = () => {
         setError(err.message);
         setIsPending(false);
       });
-  }, [])
-  
+  }, [id]);
+
+  const handleClick = () => {
+    projectFirestore.collection('recipes').doc(id).update({
+      title: 'Actualizado papus'
+    })
+  }
+
 
   return (
     <div className={`recipe ${mode}`}>
@@ -52,7 +59,15 @@ const Recipe = () => {
             ))}
           </ul>
           <p className="method">{recipe.method}</p>
-          <img className="arrowBack" src={arrowIcon} alt="Atras" onClick={history.goBack} />
+          <div className="">
+            <button onClick={handleClick}>Update me</button>
+            <img
+              className="arrowBack"
+              src={arrowIcon}
+              alt="Atras"
+              onClick={history.goBack}
+            />
+          </div>
         </>
       )}
     </div>
