@@ -15,15 +15,13 @@ const Recipe = () => {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(false);
 
-
   useEffect(() => {
     setIsPending(true);
 
-    projectFirestore
+    const unsub = projectFirestore
       .collection("recipes")
       .doc(id)
-      .get()
-      .then((doc) => {
+      .onSnapshot((doc) => {
         if (doc.exists) {
           setIsPending(false);
           setRecipe(doc.data());
@@ -31,19 +29,20 @@ const Recipe = () => {
           setIsPending(false);
           setError("No recipe found");
         }
-      })
-      .catch((err) => {
+      }, (err) => {
         setError(err.message);
         setIsPending(false);
       });
+     
+
+    return () => unsub();
   }, [id]);
 
   const handleClick = () => {
-    projectFirestore.collection('recipes').doc(id).update({
-      title: 'Actualizado papus'
-    })
-  }
-
+    projectFirestore.collection("recipes").doc(id).update({
+      title: "Actualizado papus",
+    });
+  };
 
   return (
     <div className={`recipe ${mode}`}>
